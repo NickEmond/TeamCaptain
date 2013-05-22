@@ -16,7 +16,7 @@ static String:captains_SteamID[2][STEAMID_MAX];
 static captains_turn;
 
 static playerspicked_count;
-const PLAYERS_ON_TEAM_MAX = 6;
+const PLAYERS_ON_TEAM_MAX = 6;//Change to a static? Possibly for Highlander, or ultiduo. --WS
 /*--------------------------------------------------------------------------------
 / Getters
 /-------------------------------------------------------------------------------*/
