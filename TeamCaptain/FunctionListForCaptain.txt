@@ -1,0 +1,106 @@
+Function List
+
+/**NOTES**/
+If a methods is found to have been created by the coder, then it will be tagged for User Defined (ud)
+If a method is found to have been a library method it will be tagged as such (lib)
+
+/**Functions found in PLAYERS.sp**/
+
+PLAYERS_GetCaptainClient(id){}
+--Does not depend on other functions
+--Arguments unknown, or not known well
+--Located on line 23
+--Is a "Getter"
+
+String:PLAYERS_GetCaptainSteamID(id) {}
+--Does not depend on other functions
+--Arguments unknown, or not known well
+--Located on line 28
+--Is a "Getter"
+
+bool:PLAYERS_isHumanNotCap(client)
+--Depends on these functions
+---IsClientInGame(client)
+---IsFakeClient(client)
+--Located on line 33
+--Is a getter
+
+bool:PLAYERS_isClass(client, class)
+--Depends on no other functions
+--Located on line 38
+--Is a "getter"
+
+bool:PLAYER_isClassEnabled(class)
+--Depends on no other functions
+--locate don line 43
+--is a "getter"
+
+PLAYERS_GetClassStrings(String:playerstrings_out[PLAYER_CLASS_MAX][MENUITEM_NAME_MAXLEN])
+--Depends on no other functions
+--located on line 48
+--Is a getter
+
+PLAYERS_Reset()
+--Depends on no other functions
+--Located on line 60
+--Is a "setter"
+
+PLAYERS_SetCaptainClient(cap_id, client)
+--Depends on a function
+---ChangeClientTeam(client,int)
+--Located on line 72
+--Is a "setter"
+
+PLAYERS_SetCaptainSteamID(id, const String:steamid[])
+--Depends on a function
+---strcopy()
+--Is a "setter"
+--Located on line 83
+
+PLAYERS_ToggleClass(client, class)
+--Depends on no other function
+--Located on line 88
+--Is a "setter"
+
+PLAYERS_GetClientEnd()
+--Depends on Two functions
+---IsClientInGame(int)
+---IsFakeClient(int)
+--Located on line 100
+--Is a "utility"
+
+PLAYERS_GetClass(client)
+--Depends on two functions
+---PLAYERS_ClearPlayer(client)
+---LoadChooseClassMenu(client)- ud
+--Located on line 110
+--IS a Utility
+
+PLAYERS_ClassPicked(client)
+--Depends on the following functions
+---PLAYERS_isHumanNotCap(int)
+---GetClientName(int, int, int)
+----ImplodeStrings(,,,,,)
+---PrintHintTextToAll(string, string)
+---CaptainMode()
+--Located on line 117
+--Is a utility
+
+bool:PLAYERS_CaptainPicksPlayer(captain_id,player_client)
+--Depodns on the Following functions
+---ChangeClientTeam(int,int)
+---LoadCaptainPickMenu()
+---StopPlugin()
+--Located on line 138
+--Is a utility
+
+PLAYERS_ClearPlayer(client)
+--Depends on no other functions
+--Located on line 164
+--Is a utility
+
+
+
+
+
+
