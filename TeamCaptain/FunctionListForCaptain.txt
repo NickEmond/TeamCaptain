@@ -20,8 +20,8 @@ String:PLAYERS_GetCaptainSteamID(id) {}
 
 bool:PLAYERS_isHumanNotCap(client)
 --Depends on these functions
----IsClientInGame(client)
----IsFakeClient(client)
+---IsClientInGame(client) -lib
+---IsFakeClient(client) - lib
 --Located on line 33
 --Is a getter
 
@@ -47,13 +47,13 @@ PLAYERS_Reset()
 
 PLAYERS_SetCaptainClient(cap_id, client)
 --Depends on a function
----ChangeClientTeam(client,int)
+---ChangeClientTeam(client,int) - lib
 --Located on line 72
 --Is a "setter"
 
 PLAYERS_SetCaptainSteamID(id, const String:steamid[])
 --Depends on a function
----strcopy()
+---strcopy() - lib
 --Is a "setter"
 --Located on line 83
 
@@ -64,33 +64,33 @@ PLAYERS_ToggleClass(client, class)
 
 PLAYERS_GetClientEnd()
 --Depends on Two functions
----IsClientInGame(int)
----IsFakeClient(int)
+---IsClientInGame(int) - lib
+---IsFakeClient(int) - lib
 --Located on line 100
 --Is a "utility"
 
 PLAYERS_GetClass(client)
 --Depends on two functions
----PLAYERS_ClearPlayer(client)
+---PLAYERS_ClearPlayer(client) - ud
 ---LoadChooseClassMenu(client)- ud
 --Located on line 110
 --IS a Utility
 
 PLAYERS_ClassPicked(client)
 --Depends on the following functions
----PLAYERS_isHumanNotCap(int)
----GetClientName(int, int, int)
-----ImplodeStrings(,,,,,)
----PrintHintTextToAll(string, string)
----CaptainMode()
+---PLAYERS_isHumanNotCap(int) - ud
+---GetClientName(int, int, int) - lib
+---ImplodeStrings(,,,,,) - lib
+---PrintHintTextToAll(string, string) - lib
+---CaptainMode() - ud
 --Located on line 117
 --Is a utility
 
 bool:PLAYERS_CaptainPicksPlayer(captain_id,player_client)
 --Depodns on the Following functions
----ChangeClientTeam(int,int)
----LoadCaptainPickMenu()
----StopPlugin()
+---ChangeClientTeam(int,int) - lib
+---LoadCaptainPickMenu() - ud
+---StopPlugin() - ud
 --Located on line 138
 --Is a utility
 
@@ -98,6 +98,203 @@ PLAYERS_ClearPlayer(client)
 --Depends on no other functions
 --Located on line 164
 --Is a utility
+
+/**Functions found in CAP.sp**/
+
+Action:Command_mcp_menu(client, args)
+--Depends on the following function(s)
+---PLAYERS_isHumanNotCap(client)-ud
+---LoadChooseClassMenu(client) - ud
+---PLAYERS_GetCaptainClient(int) -ud
+---LoadCaptainPickMenu(client) -ud
+---PrintToConsole(client, string) - lib
+--Located on line 19
+--Is a "command"
+
+Action:Command_mcp_start(client, args)
+--Depends on the following function(s)
+---LoadStartMenu(client) - ud
+---PrintToConsole(client, string) - lib
+--Located on line 35
+--Is a "command"
+
+Action:Event_Command_jointeam(client, string[], argc)
+--Depends on no other functions
+--Located on line 53
+--Is a hook
+
+Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
+--Depends on the following function(s)
+---GetClientOfUserID(int) - lib
+---GetEventInt(event, string) - lib
+---TF2_GetPLayer_Class(client) - lib
+---PLAYERS_SetCaptainClient(int, client) - ud
+---PickTeams() - ud
+---PrintToChatAll(string) - lib
+--Located on line 58
+--Is a "hook"
+
+Action:Event_PlayerActivate(Handle:event, const String:name[], bool:dontBroadcast)
+--Depends on the Following Functions
+---GetClientOfUserId(int) - lib
+---GetEventInt(event, string) - lib
+---PLAYERS_isHumanNotCap(client) - ud
+---GetClientAuthString(client, steamid, int) - lib
+---strcmp(string, string) - lib
+---PLAYERS_SetCaptainClient(int, client) - ud
+---PLAYERS_SetCaptainClient(int, string) - ud
+---ChangeClientTeam(client, int) - lib
+---PLAYERS_GetClass(client) - ud
+---PrintToChatAll(string) - lib
+--Located on line 85
+--Is a hook
+
+Action:Event_PlayerDisconnect(Handle:event, const String:name[], bool:dontBroadcast)
+--Depends on the following functions
+---GetClientofUserId(int, steamid) - lib
+---GetEventInt(int, string) - lib
+---IsClientAuthorized(client) - lib
+---PLAYERS_GetCaptainClient(int) - ud
+---PLAYERS_SetCaptainSteamID(int, steamid) - ud
+---GetClientAuthString(client, steamid, int) - lib
+---GetRandomInt(int, int) - lib
+---PLAYERS_isHumanNotCap(client) - ud
+---PrintToChatAll - lib
+---PLAYERS_SetCaptainClient(int, client) - ud
+---PLAYERS_ClearPlayer(client) - ud
+--Located on line118
+--Is  Hook
+
+Menu_start(Handle:menu, MenuAction:action, client, param)
+--Depends on the following functions
+---GetMenuItem(menu, param, info, int) - lib
+---PrintToChatAll(string) - lib
+---CreateTimer(int, ) - lib
+---CloseHandle(menu) -lib
+--Located on line 162
+--Is a Menu
+
+Menu_CaptainPick(Handle:menu, MenuAction:action, client, param)
+--Depends on the following functions
+---GetMenuItem(menu, param, info, int) - lib
+---LoadCaptainPickClassMenu(client, param) -ud
+---CloseHandle(menu) - lib
+--Located on line 201
+--Is a menu
+
+Menu_CaptainPickClass(Handle:menu, MenuAction:action, client, param)
+--Depends on the following functions
+---GetMenuItem(menu, param, string, int) - lib
+---StringToInt(string) - lib
+---PLAYERS_GetCaptainClient(int) - ud
+---PLAYERS_GetCaptainClient(1) - ud
+---PrintToChat(string) -lib
+---PLAYERS_CaptainPicksPlayer(string, client) - ud
+---LoadCaptainPickMenu(client) - ud
+---CloseHandle(menu) - lib
+--Located on line 216
+-- Is a menu
+
+Menu_ChooseClass(Handle:menu, MenuAction:action, client, param)
+--Depends on the following functions
+---GetMenuItem(menu, param, string, int) - lib
+---PLAYERS_ClassPicked(client) - ud
+---PLAYERS_ToggleClass(client, class) - ud
+---LoadChooseClassMenu(client) - ud
+---CloseHandle(menu) - lib
+--Located on line 247
+--Is a Menu
+
+Action:Timer_BeginCapMode(Handle:timer)
+--Depends on the following function
+---PLAYERS_Reset() - ud
+---PLAYERS_GetClientEnd() - ud
+---PLAYERS_isHumanNotCap(int) - ud
+---PLAYERS_GetClass(int) - ud
+--located on 272
+--is a timer
+
+LoadStartMenu(client)
+-Depends on the follo9wing functions
+---CreateMenu(Menu_Start) - lib
+---AddMenuItem(menu, string, string) - lib
+---SetMenuExitButton(menu, true) - lib
+---DisplayMenu(menu, client, string) - lib
+--Located on line 288
+--Is a load menu function
+
+LoadCaptainPickMenu(client)
+--Depends on the following functions
+---PLAYERS_GetClassStrings(menuitems) - ud
+---Player_IsClassEnabled(int) - ud
+---PLAYER_isHumanNotCap(int) -ud
+---PLAYERS_isClass(int, int) - ud
+---IntToString(string, string, int) - lib
+---StrCat(string, int, string) - lib
+---AddMenuItem(menu, iString, menu_i) - lib
+---SetMenuExitButton(menu, bool) - lib
+---DisplayMenu(menu, client, int) - lib
+--located at 302
+--Is a menu load function
+
+LoadCaptainPickClassMenu(client, class)
+--Depends on the following functions
+---CreateMenu(menu) - lib
+---PLAYERS_isHumanNotCap(int) -ud
+---GetClientName(int, string, int) - lib
+---IntToString(int string, int) - lib
+---AddMenuItem(menu, string, string) - lib
+---SetMenuTitle(menu, string) - lib
+---SetMenuExitButton(menu, bool) - lib
+---DisplayMenu(menu, client, int) - lib
+--Located at 338
+--Is a load menu function
+
+LoadChooseClassMenu(client)
+--Depends on the following functions
+---PLAYERS_GetClassStrings(string[]) - ud
+---PLAYERS_isClass(client, i) - ud
+---AddMenuItem(menu, string, string) - lib
+---SetMenuTitle(menu, string) - lib
+---SetMenuExitButton(menu, bool) - libd
+---DisplayMenu(menu, client, int) - lib
+--Located at 371
+-- Is a Load Menu Function
+
+CaptainMode()
+--The initializer function
+--Located on line 404
+
+PickTeams()
+--Depends on the folowing functions
+---ChangeCLientTeam(client, int) - lib
+---PLAYERS_GetCaptainClient(int) - ud
+---LoadCaptainPickMenu(client) - ud
+--Located on line 472
+
+StopPLugin(string[])
+--Depends on the follwing functions
+---Strcat(string, int, String) - lib
+---PrintTochatAll(string) - lib
+---RemoveCommandListener(event, string) - lib
+---UnHookEvent(string, event, event) - lib
+---PLAYERS_Reset() -ud
+--Locatede on line 484
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
